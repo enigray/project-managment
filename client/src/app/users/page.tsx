@@ -22,7 +22,7 @@ const CustomToolbar = () => (
 
 const columns: GridColDef[] = [
   { field: "userId", headerName: "ID", width: 100 },
-  { field: "username", headerName: "Username", width: 150 },
+  { field: "preferred_username", headerName: "preferred_username", width: 150 },
   {
     field: "profilePictureUrl",
     headerName: "Profile Picture",
@@ -32,7 +32,7 @@ const columns: GridColDef[] = [
         <div className="h-9 w-9">
           <Image
             src={`https://abi-s3-imgages.s3.us-east-1.amazonaws.com/${params.value}`}
-            alt={params.row.username}
+            alt={params.row.preferred_username}
             width={100}
             height={50}
             className="h-full rounded-full object-cover"

@@ -3,7 +3,7 @@ import React from "react";
 
 const Settings = () => {
   const userSettings = {
-    username: "johndoe",
+    preferred_username: "johndoe",
     email: "john.doe@example.com",
     teamName: "Development Team",
     roleName: "Developer",
@@ -18,8 +18,8 @@ const Settings = () => {
       <Header name="Settings" />
       <div className="space-y-4">
         <div>
-          <label className={labelStyles}>Username</label>
-          <div className={textStyles}>{userSettings.username}</div>
+          <label className={labelStyles}>preferred_username</label>
+          <div className={textStyles}>{userSettings.preferred_username}</div>
         </div>
         <div>
           <label className={labelStyles}>Email</label>

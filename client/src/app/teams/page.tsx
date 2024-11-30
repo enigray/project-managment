@@ -22,9 +22,9 @@ const CustomToolbar = () => (
 const columns: GridColDef[] = [
   { field: "id", headerName: "Team ID", width: 100 },
   { field: "teamName", headerName: "Team Name", width: 200 },
-  { field: "productOwnerUsername", headerName: "Product Owner", width: 200 },
+  { field: "productOwnerpreferred_username", headerName: "Product Owner", width: 200 },
   {
-    field: "projectManagerUsername",
+    field: "projectManagerpreferred_username",
     headerName: "Project Manager",
     width: 200,
   },

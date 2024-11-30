@@ -167,7 +167,7 @@ const Sidebar = () => {
             {!!currentUserDetails?.profilePictureUrl ? (
               <Image
                 src={`https://abi-s3-imgages.s3.us-east-1.amazonaws.com/${currentUserDetails?.profilePictureUrl}`}
-                alt={currentUserDetails?.username || "User Profile Picture"}
+                alt={currentUserDetails?.preferred_username || "User Profile Picture"}
                 width={100}
                 height={50}
                 className="h-full rounded-full object-cover"
@@ -177,7 +177,7 @@ const Sidebar = () => {
             )}
           </div>
           <span className="mx-3 text-gray-800 dark:text-white">
-            {currentUserDetails?.username}
+            {currentUserDetails?.preferred_username}
           </span>
           <button
             className="self-start rounded bg-blue-400 px-4 py-2 text-xs font-bold text-white hover:bg-blue-500 md:block"
@@ -205,9 +205,8 @@ const SidebarLink = ({ href, icon: Icon, label }: SidebarLinkProps) => {
   return (
     <Link href={href} className="w-full">
       <div
-        className={`relative flex cursor-pointer items-center gap-3 transition-colors hover:bg-gray-100 dark:bg-black dark:hover:bg-gray-700 ${
-          isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""
-        } justify-start px-8 py-3`}
+        className={`relative flex cursor-pointer items-center gap-3 transition-colors hover:bg-gray-100 dark:bg-black dark:hover:bg-gray-700 ${isActive ? "bg-gray-100 text-white dark:bg-gray-600" : ""
+          } justify-start px-8 py-3`}
       >
         {isActive && (
           <div className="absolute left-0 top-0 h-[100%] w-[5px] bg-blue-200" />

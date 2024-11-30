@@ -19,7 +19,7 @@ const UserCard = ({ user }: Props) => {
         />
       )}
       <div>
-        <h3>{user.username}</h3>
+        <h3>{user.preferred_username}</h3>
         <p>{user.email}</p>
       </div>
     </div>

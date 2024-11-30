@@ -63,13 +63,13 @@ const columns: GridColDef[] = [
     field: "author",
     headerName: "Author",
     width: 150,
-    renderCell: (params) => params.value.username || "Unknown",
+    renderCell: (params) => params.value.preferred_username || "Unknown",
   },
   {
     field: "assignee",
     headerName: "Assignee",
     width: 150,
-    renderCell: (params) => params.value.username || "Unassigned",
+    renderCell: (params) => params.value.preferred_username || "Unassigned",
   },
 ];
 
@@ -114,17 +114,15 @@ const ReusablePriorityPage = ({ priority }: Props) => {
       />
       <div className="mb-4 flex justify-start">
         <button
-          className={`px-4 py-2 ${
-            view === "list" ? "bg-gray-300" : "bg-white"
-          } rounded-l`}
+          className={`px-4 py-2 ${view === "list" ? "bg-gray-300" : "bg-white"
+            } rounded-l`}
           onClick={() => setView("list")}
         >
           List
         </button>
         <button
-          className={`px-4 py-2 ${
-            view === "table" ? "bg-gray-300" : "bg-white"
-          } rounded-l`}
+          className={`px-4 py-2 ${view === "table" ? "bg-gray-300" : "bg-white"
+            } rounded-l`}
           onClick={() => setView("table")}
         >
           Table

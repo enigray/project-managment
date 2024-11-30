@@ -147,8 +147,7 @@ const Task = ({ task }: TaskProps) => {
 
   const PriorityTag = ({ priority }: { priority: TaskType["priority"] }) => (
     <div
-      className={`rounded-full px-2 py-1 text-xs font-semibold ${
-        priority === "Urgent"
+      className={`rounded-full px-2 py-1 text-xs font-semibold ${priority === "Urgent"
           ? "bg-red-200 text-red-700"
           : priority === "High"
             ? "bg-yellow-200 text-yellow-700"
@@ -157,7 +156,7 @@ const Task = ({ task }: TaskProps) => {
               : priority === "Low"
                 ? "bg-blue-200 text-blue-700"
                 : "bg-gray-200 text-gray-700"
-      }`}
+        }`}
     >
       {priority}
     </div>
@@ -168,9 +167,8 @@ const Task = ({ task }: TaskProps) => {
       ref={(instance) => {
         drag(instance);
       }}
-      className={`mb-4 rounded-md bg-white shadow dark:bg-dark-secondary ${
-        isDragging ? "opacity-50" : "opacity-100"
-      }`}
+      className={`mb-4 rounded-md bg-white shadow dark:bg-dark-secondary ${isDragging ? "opacity-50" : "opacity-100"
+        }`}
     >
       {task.attachments && task.attachments.length > 0 && (
         <Image
@@ -227,7 +225,7 @@ const Task = ({ task }: TaskProps) => {
               <Image
                 key={task.assignee.userId}
                 src={`https://abi-s3-imgages.s3.us-east-1.amazonaws.com/${task.assignee.profilePictureUrl!}`}
-                alt={task.assignee.username}
+                alt={task.assignee.preferred_username}
                 width={30}
                 height={30}
                 className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"
@@ -237,7 +235,7 @@ const Task = ({ task }: TaskProps) => {
               <Image
                 key={task.author.userId}
                 src={`https://abi-s3-imgages.s3.us-east-1.amazonaws.com/${task.author.profilePictureUrl!}`}
-                alt={task.author.username}
+                alt={task.author.preferred_username}
                 width={30}
                 height={30}
                 className="h-8 w-8 rounded-full border-2 border-white object-cover dark:border-dark-secondary"

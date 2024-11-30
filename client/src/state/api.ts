@@ -26,7 +26,7 @@ export enum Status {
 
 export interface User {
   userId?: number;
-  username: string;
+  preferred_username: string;
   email: string;
   profilePictureUrl?: string;
   cognitoId?: string;
