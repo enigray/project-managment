@@ -167,7 +167,7 @@ const Sidebar = () => {
             {!!currentUserDetails?.profilePictureUrl ? (
               <Image
                 src={`https://abi-s3-imgages.s3.us-east-1.amazonaws.com/${currentUserDetails?.profilePictureUrl}`}
-                alt={currentUserDetails?.preferred_username || "User Profile Picture"}
+                alt={currentUserDetails?.username || "User Profile Picture"}
                 width={100}
                 height={50}
                 className="h-full rounded-full object-cover"
@@ -177,7 +177,7 @@ const Sidebar = () => {
             )}
           </div>
           <span className="mx-3 text-gray-800 dark:text-white">
-            {currentUserDetails?.preferred_username}
+            {currentUserDetails?.username}
           </span>
           <button
             className="self-start rounded bg-blue-400 px-4 py-2 text-xs font-bold text-white hover:bg-blue-500 md:block"
