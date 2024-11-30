@@ -1,75 +1,41 @@
-"use client";
-
 import Header from "@/components/Header";
-import ProjectCard from "@/components/ProjectCard";
-import TaskCard from "@/components/TaskCard";
-import UserCard from "@/components/UserCard";
-import { useSearchQuery } from "@/state/api";
-import { debounce } from "lodash";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const Search = () => {
-    const [searchTerm, setSearchTerm] = useState("");
-    const {
-        data: searchResults,
-        isLoading,
-        isError,
-    } = useSearchQuery(searchTerm, {
-        skip: searchTerm.length < 3,
-    });
+const Settings = () => {
+  const userSettings = {
+    username: "johndoe",
+    email: "john.doe@example.com",
+    teamName: "Development Team",
+    roleName: "Developer",
+  };
 
-    const handleSearch = debounce(
-        (event: React.ChangeEvent<HTMLInputElement>) => {
-            setSearchTerm(event.target.value);
-        },
-        500,
-    );
+  const labelStyles = "block text-sm font-medium dark:text-white";
+  const textStyles =
+    "mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 dark:text-white";
 
-    useEffect(() => {
-        return handleSearch.cancel;
-    }, [handleSearch.cancel]);
-
-    return (
-        <div className="p-8">
-            <Header name="Search" />
-            <div>
-                <input
-                    type="text"
-                    placeholder="Search..."
-                    className="w-1/2 rounded border p-3 shadow"
-                    onChange={handleSearch}
-                />
-            </div>
-            <div className="p-5">
-                {isLoading && <p>Loading...</p>}
-                {isError && <p>Error occurred while fetching search results.</p>}
-                {!isLoading && !isError && searchResults && (
-                    <div>
-                        {searchResults.tasks && searchResults.tasks?.length > 0 && (
-                            <h2>Tasks</h2>
-                        )}
-                        {searchResults.tasks?.map((task) => (
-                            <TaskCard key={task.id} task={task} />
-                        ))}
-
-                        {searchResults.projects && searchResults.projects?.length > 0 && (
-                            <h2>Projects</h2>
-                        )}
-                        {searchResults.projects?.map((project) => (
-                            <ProjectCard key={project.id} project={project} />
-                        ))}
-
-                        {searchResults.users && searchResults.users?.length > 0 && (
-                            <h2>Users</h2>
-                        )}
-                        {searchResults.users?.map((user) => (
-                            <UserCard key={user.userId} user={user} />
-                        ))}
-                    </div>
-                )}
-            </div>
+  return (
+    <div className="p-8">
+      <Header name="Settings" />
+      <div className="space-y-4">
+        <div>
+          <label className={labelStyles}>Username</label>
+          <div className={textStyles}>{userSettings.username}</div>
         </div>
-    );
+        <div>
+          <label className={labelStyles}>Email</label>
+          <div className={textStyles}>{userSettings.email}</div>
+        </div>
+        <div>
+          <label className={labelStyles}>Team</label>
+          <div className={textStyles}>{userSettings.teamName}</div>
+        </div>
+        <div>
+          <label className={labelStyles}>Role</label>
+          <div className={textStyles}>{userSettings.roleName}</div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default Search;
+export default Settings;
