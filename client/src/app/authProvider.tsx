@@ -15,7 +15,7 @@ Amplify.configure({
 
 const formFields = {
   signUp: {
-    preferred_username: {
+    username: {
       order: 1,
       placeholder: "Choose a username",
       label: "Username",

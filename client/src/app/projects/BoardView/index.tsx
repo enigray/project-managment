@@ -157,7 +157,7 @@ const Task = ({ task }: TaskProps) => {
               : priority === "Low"
                 ? "bg-blue-200 text-blue-700"
                 : "bg-gray-200 text-gray-700"
-        }`}
+      }`}
     >
       {priority}
     </div>
@@ -170,7 +170,7 @@ const Task = ({ task }: TaskProps) => {
       }}
       className={`mb-4 rounded-md bg-white shadow dark:bg-dark-secondary ${
         isDragging ? "opacity-50" : "opacity-100"
-        }`}
+      }`}
     >
       {task.attachments && task.attachments.length > 0 && (
         <Image
