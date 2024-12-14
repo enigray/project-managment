@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { fetchAuthSession, getCurrentUser } from "aws-amplify/auth";
+import { Auth } from "aws-amplify";
 
 export interface Project {
   id: number;
@@ -78,10 +78,14 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     prepareHeaders: async (headers) => {
-      const session = await fetchAuthSession();
-      const { accessToken } = session.tokens ?? {};
-      if (accessToken) {
-        headers.set("Authorization", `Bearer ${accessToken}`);
+      try {
+        const session = await Auth.currentSession();
+        const accessToken = session.getAccessToken().getJwtToken();
+        if (accessToken) {
+          headers.set("Authorization", `Bearer ${accessToken}`);
+        }
+      } catch (error) {
+        // If no session is found, just return headers as is
       }
       return headers;
     },
@@ -90,17 +94,24 @@ export const api = createApi({
   tagTypes: ["Projects", "Tasks", "Users", "Teams"],
   endpoints: (build) => ({
     getAuthUser: build.query({
-      queryFn: async (_, _queryApi, _extraoptions, fetchWithBQ) => {
+      queryFn: async (_arg, _queryApi, _extraOptions, fetchWithBQ) => {
         try {
-          const user = await getCurrentUser();
-          const session = await fetchAuthSession();
+          const user = await Auth.currentAuthenticatedUser();
+          const session = await Auth.currentSession();
           if (!session) throw new Error("No session found");
-          const { userSub } = session;
-          const { accessToken } = session.tokens ?? {};
+
+          const userSub = user?.attributes?.sub;
+          if (!userSub) throw new Error("User does not have a 'sub' attribute.");
 
           const userDetailsResponse = await fetchWithBQ(`users/${userSub}`);
-          const userDetails = userDetailsResponse.data as User;
+          if (userDetailsResponse.error) {
+            throw new Error(
+              userDetailsResponse.error?.data?.message ||
+                "Could not fetch user details"
+            );
+          }
 
+          const userDetails = userDetailsResponse.data as User;
           return { data: { user, userSub, userDetails } };
         } catch (error: any) {
           return { error: error.message || "Could not fetch user data" };
