@@ -78,15 +78,10 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
     prepareHeaders: async (headers) => {
-      try {
-        const session = await fetchAuthSession();
-        const { accessToken } = session.tokens ?? {};
-        if (accessToken) {
-          headers.set("Authorization", `Bearer ${accessToken}`);
-        }
-      } catch (error) {
-        console.error("Error retrieving session:", error);
-        // If no session, just return headers as is.
+      const session = await fetchAuthSession();
+      const { accessToken } = session.tokens ?? {};
+      if (accessToken) {
+        headers.set("Authorization", `Bearer ${accessToken}`);
       }
       return headers;
     },
@@ -94,25 +89,19 @@ export const api = createApi({
   reducerPath: "api",
   tagTypes: ["Projects", "Tasks", "Users", "Teams"],
   endpoints: (build) => ({
-    getAuthUser: build.query<
-      { user: any; userSub: string; userDetails: User },
-      void
-    >({
-      queryFn: async (_arg, _queryApi, _extraOptions, fetchWithBQ) => {
+    getAuthUser: build.query<{ user: any; userSub: string; userDetails: User }, void>({
+      queryFn: async (_, _queryApi, _extraoptions, fetchWithBQ) => {
         try {
           const user = await getCurrentUser();
           const session = await fetchAuthSession();
+          if (!session || !session.userSub) {
+            throw new Error("No valid session or userSub found");
+          }
 
-          if (!session) throw new Error("No session found");
           const { userSub } = session;
-          if (!userSub) throw new Error("No userSub found in session");
-
           const userDetailsResponse = await fetchWithBQ(`users/${userSub}`);
           if (userDetailsResponse.error) {
-            const errMsg =
-              (userDetailsResponse.error.data as any)?.message ||
-              "Could not fetch user details";
-            throw new Error(errMsg);
+            throw new Error("Failed to fetch user details");
           }
 
           const userDetails = userDetailsResponse.data as User;
@@ -122,7 +111,6 @@ export const api = createApi({
         }
       },
     }),
-
     getProjects: build.query<Project[], void>({
       query: () => "projects",
       providesTags: ["Projects"],
@@ -163,9 +151,7 @@ export const api = createApi({
         method: "PATCH",
         body: { status },
       }),
-      invalidatesTags: (result, error, { taskId }) => [
-        { type: "Tasks", id: taskId },
-      ],
+      invalidatesTags: (result, error, { taskId }) => [{ type: "Tasks", id: taskId }],
     }),
     getUsers: build.query<User[], void>({
       query: () => "users",
